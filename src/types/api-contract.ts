@@ -148,3 +148,32 @@ export interface OnboardTenantRequest {
   adminUserName: string;
   adminPassword: string;
 }
+// --- 角色管理 start ---
+export interface Role {
+  id: string;
+  name: string;
+  tenantId: string;
+  tenantName: string | null;
+  description: string | null;
+  createOn: Date;
+}
+export interface RoleDetailsDto extends Role {
+  permissionIds: string[];
+}
+export interface RoleFilter extends FilterBase {
+  name?: string;
+  tenantId?: string;
+}
+export interface CreateRoleRequest {
+  name: string;
+  description?: string;
+}
+export interface UpdateRoleRequest {
+  name: string;
+  description?: string;
+}
+export interface UpdateRolePermissionsRequest {
+  roleId: string;
+  permissionIds: string[];
+}
+// --- 角色管理 end ---

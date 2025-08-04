@@ -6,8 +6,12 @@ import { ApiError } from './errors/ApiError';
 const apiClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
   timeout: 10000,
+  withCredentials: true,
 });
-
+const refreshApiClient = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
+  withCredentials: true,
+});
 // 请求拦截器
 apiClient.interceptors.request.use(
   (config) => {
@@ -35,21 +39,20 @@ apiClient.interceptors.response.use(
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       try {
-        const refreshResponse = await axios
-          .create({ withCredentials: true }) // ✅ 确保 withCredentials 为 true，浏览器才会发送 cookie
-          .post<ApiResponse<LoginResponse>>(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/refresh`);
+        const refreshResponse = await refreshApiClient.post<ApiResponse<LoginResponse>>(`/api/auth/refresh`);
+        console.log(refreshResponse);
         const newAccessToken = refreshResponse.data.data?.accessToken;
         if (!newAccessToken) {
-          useAuthStore.getState().logout();
-          window.location.href = '/login';
+          // useAuthStore.getState().logout();
+          // window.location.href = '/login';
           return Promise.reject(error);
         }
         useAuthStore.getState().refreshTokens(newAccessToken);
         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
         return apiClient(originalRequest);
       } catch (refreshError) {
-        useAuthStore.getState().logout();
-        window.location.href = '/login';
+        // useAuthStore.getState().logout();
+        // window.location.href = '/login';
         return Promise.reject(refreshError);
       }
     }

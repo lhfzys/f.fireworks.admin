@@ -1,24 +1,22 @@
 'use client';
 
-import { UseMutationResult } from '@tanstack/react-query';
+import { useState } from 'react';
 import { FieldValues, UseFormReturn } from 'react-hook-form';
 import { toast } from 'sonner';
 import { ApiError } from '@/lib/errors/ApiError';
 
-interface UseApiFormProps<TResult, TData extends FieldValues, TVariables> {
+interface UseApiFormProps<TData extends FieldValues> {
   form: UseFormReturn<TData>;
-  mutation: UseMutationResult<TResult, Error, TVariables, unknown>;
   onSuccess?: (result: any) => void;
 }
 
-export const useApiForm = <TResult, TData extends FieldValues, TVariables>({
-  form,
-  mutation,
-  onSuccess,
-}: UseApiFormProps<TResult, TData, TVariables>) => {
-  const handleSubmit = async (data: TData) => {
+export const useApiForm = <TData extends FieldValues>({ form, onSuccess }: UseApiFormProps<TData>) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleApiSubmit = async (apiCall: () => Promise<any>) => {
+    setIsSubmitting(true);
     try {
-      const result = await mutation.mutateAsync(data as any);
+      const result = await apiCall();
       onSuccess?.(result);
     } catch (error) {
       if (error instanceof ApiError) {
@@ -39,10 +37,12 @@ export const useApiForm = <TResult, TData extends FieldValues, TVariables>({
         // --- 未知/网络错误 ---
         toast.error('未知错误', { position: 'top-center', description: '网络或服务器错误，请稍后重试。' });
       }
+    } finally {
+      setIsSubmitting(false);
     }
   };
   return {
-    onSubmit: handleSubmit,
-    isSubmitting: mutation.isPending,
+    handleApiSubmit,
+    isSubmitting,
   };
 };

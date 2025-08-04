@@ -34,3 +34,30 @@ export const isPathAuthorized = (pathname: string, menu: MenuNode[] | null, user
 
   return requiredPermission ? userPermissions.includes(requiredPermission) : true;
 };
+export const getAllDescendantIds = (node: MenuNode, allNodesMap: Map<string, MenuNode>): string[] => {
+  let ids: string[] = [];
+  if (node.children) {
+    for (const child of node.children) {
+      ids.push(child.id);
+      ids = [...ids, ...getAllDescendantIds(child, allNodesMap)];
+    }
+  }
+  return ids;
+};
+
+// 获取一个节点的所有父辈ID
+export const getAllAncestorIds = (node: MenuNode, allNodesMap: Map<string, MenuNode>): string[] => {
+  const ids: string[] = [];
+  let current = node;
+  while (current.parentId) {
+    // 假设 MenuNode 有 parentId
+    const parent = allNodesMap.get(current.parentId);
+    if (parent) {
+      ids.push(parent.id);
+      current = parent;
+    } else {
+      break;
+    }
+  }
+  return ids;
+};

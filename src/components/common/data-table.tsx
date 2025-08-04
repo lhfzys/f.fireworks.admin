@@ -21,8 +21,7 @@ export interface DataTableProps<TData> {
   pagination: PaginationState;
   onPaginationChange: OnChangeFn<PaginationState>;
 
-  onEdit?: (row: TData) => void;
-  onDelete?: (row: TData) => void;
+  meta?: any;
 }
 
 export function DataTable<TData>({
@@ -32,8 +31,7 @@ export function DataTable<TData>({
   pageCount,
   pagination,
   onPaginationChange,
-  onEdit,
-  onDelete,
+  meta,
 }: DataTableProps<TData>) {
   const table = useReactTable({
     data,
@@ -47,10 +45,7 @@ export function DataTable<TData>({
     manualPagination: true,
     manualFiltering: true,
     manualSorting: true,
-    meta: {
-      onEdit,
-      onDelete,
-    },
+    meta,
   });
   if (isLoading) {
     const skeletonRows = Array.from({ length: pagination.pageSize }, (_, i) => (
@@ -65,7 +60,6 @@ export function DataTable<TData>({
     return (
       <div className="rounded-md border">
         <Table>
-          {/* ... 表头渲染 ... */}
           <TableBody>{skeletonRows}</TableBody>
         </Table>
       </div>

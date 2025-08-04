@@ -1,8 +1,8 @@
 import { request } from '@/lib/request';
-import { Permissions } from '@/types/api-contract';
+import { MenuNode } from '@/types/api-contract';
 
 export const permissionService = {
-  getTree: (): Promise<Permissions[]> => {
+  getTree: (): Promise<MenuNode[]> => {
     return request({
       url: '/api/permissions',
       method: 'GET',

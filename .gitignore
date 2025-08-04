@@ -41,3 +41,7 @@ yarn-error.log*
 next-env.d.ts
 .idea/*
 .idea/
+
+# Local SSL certificates
+localhost.pem
+localhost-key.pem

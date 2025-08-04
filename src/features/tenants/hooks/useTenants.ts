@@ -15,3 +15,11 @@ export const useTenantById = (id: string | null | undefined) => {
     enabled: !!id,
   });
 };
+export const useAllTenants = () => {
+  return useQuery({
+    queryKey: ['tenants', 'all'],
+    queryFn: () => tenantService.getPaginatedList({ pageSize: 999 }),
+    select: (data) => data.items,
+    staleTime: 1000 * 60 * 5,
+  });
+};

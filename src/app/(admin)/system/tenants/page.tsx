@@ -37,11 +37,6 @@ export default function TenantsPage() {
   const [isPurgeOpen, setIsPurgeOpen] = useState(false);
 
   // --- 事件处理器 ---
-  const handleNew = () => {
-    setSelectedTenant(null);
-    setIsCreateEditOpen(true);
-  };
-
   const handleEdit = (tenant: Tenant) => {
     setSelectedTenant(tenant);
     setIsCreateEditOpen(true);
@@ -94,8 +89,10 @@ export default function TenantsPage() {
         pageCount={pageCount}
         pagination={pagination}
         onPaginationChange={setPagination}
-        onEdit={handleEdit}
-        onDelete={handleDelete}
+        meta={{
+          onEdit: handleEdit,
+          onDelete: handleDelete,
+        }}
       />
 
       <CreateEditTenantDialog
