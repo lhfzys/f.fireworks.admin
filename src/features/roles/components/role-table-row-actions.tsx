@@ -24,6 +24,7 @@ export const RoleTableRowActions = <TData extends Role>({
   onAssignPermissions,
 }: RoleTableRowActionsProps<Role>) => {
   const role = row.original;
+  const isProtected = role.isProtected;
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -33,15 +34,15 @@ export const RoleTableRowActions = <TData extends Role>({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => onAssignPermissions?.(role)}>
+        <DropdownMenuItem onClick={() => onAssignPermissions?.(role)} disabled={isProtected}>
           <Shield className="mr-2 h-4 w-4" />
-          分配角色
+          分配权限
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => onEdit?.(role)}>
+        <DropdownMenuItem onClick={() => onEdit?.(role)} disabled={isProtected}>
           <Pencil className="mr-2 h-4 w-4" />
           编辑
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => onDelete?.(role)} className="text-destructive">
+        <DropdownMenuItem onClick={() => onDelete?.(role)} className="text-destructive" disabled={isProtected}>
           <Trash2 className="mr-2 h-4 w-4" />
           删除
         </DropdownMenuItem>

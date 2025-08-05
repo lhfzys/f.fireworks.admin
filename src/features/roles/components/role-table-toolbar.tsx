@@ -55,7 +55,7 @@ export function RoleTableToolbar({ isSuperAdmin, onFilterChange, onCreateClick }
       </div>
       <Button size="sm" className="h-8 gap-1" onClick={onCreateClick}>
         <Plus className="h-3.5 w-3.5" />
-        <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">新建租户</span>
+        <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">新建角色</span>
       </Button>
     </div>
   );

@@ -12,7 +12,6 @@ interface CreateEditRoleDialogProps {
 
 export const CreateEditRoleDialog = ({ isOpen, setIsOpen, role }: CreateEditRoleDialogProps) => {
   const mode = role ? 'edit' : 'create';
-
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogContent>

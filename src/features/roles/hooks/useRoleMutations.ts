@@ -34,8 +34,11 @@ export const useRoleMutations = () => {
   });
 
   const updateRolePermissionsMutation = useMutation({
-    mutationFn: ({ id, data }: any) => roleService.updatePermissions(id, data),
-    onSuccess: () => onMutationSuccess('角色权限更新成功！'),
+    mutationFn: (variables: { roleId: string; permissionIds: string[] }) => roleService.updatePermissions(variables),
+    onSuccess: (_, variables) => {
+      onMutationSuccess('角色权限更新成功！');
+      queryClient.invalidateQueries({ queryKey: ['role', variables.roleId] });
+    },
     onError: (error) => toast.error('角色权限更新失败！', { position: 'top-center', description: error.message }),
   });
   return { createRoleMutation, updateRoleMutation, deleteRoleMutation, updateRolePermissionsMutation };

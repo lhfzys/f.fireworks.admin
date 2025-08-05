@@ -26,7 +26,6 @@ export const RoleForm = ({ mode, initialData, onSuccess }: RoleFormProps) => {
     resolver: zodResolver(formSchema),
     defaultValues: initialData || { name: '', description: '' },
   });
-
   const { createRoleMutation, updateRoleMutation } = useRoleMutations();
 
   const { handleApiSubmit, isSubmitting } = useApiForm({
@@ -37,6 +36,7 @@ export const RoleForm = ({ mode, initialData, onSuccess }: RoleFormProps) => {
   const onSubmit = (data: FormData) => {
     handleApiSubmit(async () => {
       if (mode === 'edit' && initialData) {
+        console.log(initialData);
         await updateRoleMutation.mutateAsync({ id: initialData.id, data });
       } else {
         await createRoleMutation.mutateAsync(data);

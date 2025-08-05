@@ -75,11 +75,34 @@ export interface LoginRequest {
 export interface LoginResponse {
   accessToken: string;
 }
+export interface User {
+  id: string;
+  userName: string;
+  email: string;
+  firstName: string | null;
+  lastName: string | null;
+  status: UserStatus;
+  createdOn: string;
+  tenantId: string;
+  tenantName: string | null;
+  roles: string[];
+}
 // 用户查询筛选参数
 export interface UserFilter extends FilterBase {
   userName?: string;
   status?: UserStatus;
   tenantId?: string;
+}
+export interface CreateUserRequest {
+  userName: string;
+  email: string;
+  password: string;
+  tenantId: string;
+}
+export interface UpdateUserRequest {
+  userName: string;
+  email: string;
+  status: UserStatus;
 }
 export interface Tenant {
   id: string;
@@ -156,6 +179,7 @@ export interface Role {
   tenantName: string | null;
   description: string | null;
   createOn: Date;
+  isProtected: boolean;
 }
 export interface RoleDetailsDto extends Role {
   permissionIds: string[];

@@ -1,6 +1,6 @@
 'use client';
 
-import { Dialog, DialogContent, DialogHeader } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Skeleton } from '@/components/ui/skeleton';
 import { PermissionPicker } from '@/features/permissions/components/permission-picker';
 import { useRoleMutations } from '@/features/roles/hooks/useRoleMutations';
@@ -16,7 +16,6 @@ interface AssignPermissionsDialogProps {
 export const AssignPermissionsDialog = ({ isOpen, setIsOpen, role }: AssignPermissionsDialogProps) => {
   const { data: roleDetails, isLoading } = useRoleById(role?.id);
   const { updateRolePermissionsMutation } = useRoleMutations();
-
   const handleSave = (selectedIds: string[]) => {
     if (!role) return;
     updateRolePermissionsMutation.mutate(
@@ -29,7 +28,8 @@ export const AssignPermissionsDialog = ({ isOpen, setIsOpen, role }: AssignPermi
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogContent className="max-w-md">
         <DialogHeader>
-          <DialogContent>为角色 “{role?.name}” 分配权限</DialogContent>
+          <DialogTitle>为角色 “{role?.name}” 分配权限</DialogTitle>
+          <DialogDescription>分配权限信息</DialogDescription>
         </DialogHeader>
         {isLoading && <Skeleton className="h-64 w-full" />}
         {roleDetails && (

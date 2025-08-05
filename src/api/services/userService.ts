@@ -2,15 +2,15 @@ import { request } from '@/lib/request';
 import {
   CreateRoleRequest,
   PaginatedList,
-  Role,
   RoleDetailsDto,
-  RoleFilter,
   UpdateRoleRequest,
+  User,
+  UserFilter,
 } from '@/types/api-contract';
 
-export const roleService = {
-  getPaginatedList: (params: RoleFilter): Promise<PaginatedList<Role>> => {
-    return request({ url: '/api/roles', method: 'GET', params: params });
+export const userService = {
+  getPaginatedList: (params: UserFilter): Promise<PaginatedList<User>> => {
+    return request({ url: '/api/users', method: 'GET', params: params });
   },
   create: (data: CreateRoleRequest): Promise<string> => {
     return request({ url: '/api/roles', method: 'POST', data });
