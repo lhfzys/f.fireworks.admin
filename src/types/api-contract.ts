@@ -79,13 +79,10 @@ export interface User {
   id: string;
   userName: string;
   email: string;
-  firstName: string | null;
-  lastName: string | null;
   status: UserStatus;
   createdOn: string;
   tenantId: string;
   tenantName: string | null;
-  roles: string[];
 }
 // 用户查询筛选参数
 export interface UserFilter extends FilterBase {
@@ -95,9 +92,9 @@ export interface UserFilter extends FilterBase {
 }
 export interface CreateUserRequest {
   userName: string;
-  email: string;
-  password: string;
-  tenantId: string;
+  email?: string;
+  password?: string;
+  tenantId?: string;
 }
 export interface UpdateUserRequest {
   userName: string;

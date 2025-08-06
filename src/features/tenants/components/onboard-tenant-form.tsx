@@ -20,10 +20,7 @@ const formSchema = z.object({
   planId: z.string().optional(),
   tenantType: z.enum(TenantType),
   adminUserName: z.string().min(1, '管理员用户名不能为空'),
-  adminEmail: z
-    .string()
-    .min(1, '邮箱不能为空')
-    .regex(/^[a-zA-Z0-9_.-]+$/, '邮箱前缀只能包含字母、数字、点、下划线和连字符'),
+  adminEmail: z.email().min(1, '邮箱不能为空'),
   adminPassword: z.string().min(6, '密码长度不能少于6位'),
   adminFirstName: z.string().optional(),
   adminLastName: z.string().optional(),
@@ -51,11 +48,16 @@ export const OnboardTenantForm = ({ initialData, onSuccess }: OnboardTenantFormP
   const { onboardTenantMutation } = useTenantMutations();
   const { data: plans, isLoading: isLoadingPlans } = useAllPlans();
 
-  const { onSubmit, isSubmitting } = useApiForm({
+  const { handleApiSubmit, isSubmitting } = useApiForm({
     form,
-    mutation: onboardTenantMutation,
     onSuccess: onSuccess,
   });
+
+  const onSubmit = (data: FormData) => {
+    handleApiSubmit(async () => {
+      await onboardTenantMutation.mutateAsync(data);
+    });
+  };
 
   useEffect(() => {
     if (initialData) {

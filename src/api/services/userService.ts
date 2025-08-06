@@ -1,34 +1,27 @@
 import { request } from '@/lib/request';
-import {
-  CreateRoleRequest,
-  PaginatedList,
-  RoleDetailsDto,
-  UpdateRoleRequest,
-  User,
-  UserFilter,
-} from '@/types/api-contract';
+import { CreateUserRequest, PaginatedList, UpdateUserRequest, User, UserFilter } from '@/types/api-contract';
 
 export const userService = {
   getPaginatedList: (params: UserFilter): Promise<PaginatedList<User>> => {
     return request({ url: '/api/users', method: 'GET', params: params });
   },
-  create: (data: CreateRoleRequest): Promise<string> => {
-    return request({ url: '/api/roles', method: 'POST', data });
+  create: (data: CreateUserRequest): Promise<string> => {
+    return request({ url: '/api/users', method: 'POST', data });
   },
-  update: (id: string, data: UpdateRoleRequest): Promise<void> => {
-    return request({ url: `/api/roles/${id}`, method: 'PUT', data });
+  update: (id: string, data: UpdateUserRequest): Promise<void> => {
+    return request({ url: `/api/users/${id}`, method: 'PUT', data });
   },
   delete: (id: string): Promise<void> => {
-    return request({ url: `/api/roles/${id}`, method: 'DELETE' });
+    return request({ url: `/api/users/${id}`, method: 'DELETE' });
   },
-  getById: (id: string): Promise<RoleDetailsDto> => {
-    return request({ url: `/api/roles/${id}`, method: 'GET' });
-  },
-  updatePermissions: (params: { roleId: string; permissionIds: string[] }): Promise<void> => {
+  // getById: (id: string): Promise<RoleDetailsDto> => {
+  //   return request({ url: `/api/users/${id}`, method: 'GET' });
+  // },
+  updateRoles: (params: { userId: string; roleIds: string[] }): Promise<void> => {
     return request({
-      url: `/api/roles/${params.roleId}/permissions`,
+      url: `/api/roles/${params.userId}/roles`,
       method: 'PUT',
-      data: { permissionIds: params.permissionIds },
+      data: { roleIds: params.roleIds },
     });
   },
 };
