@@ -197,4 +197,28 @@ export interface UpdateRolePermissionsRequest {
   roleId: string;
   permissionIds: string[];
 }
-// --- 角色管理 end ---
+// --- 套餐管理 start ---
+export interface Plan {
+  id: string;
+  name: string;
+  description?: string;
+  isActive: boolean;
+}
+export interface PlanDetails extends Plan {
+  permissionIds: string[];
+}
+export interface PlanFilter extends FilterBase {
+  name?: string;
+}
+export interface CreatePlanRequest {
+  name: string;
+  description?: string;
+  permissionIds: string[];
+}
+export interface UpdatePlanRequest {
+  id: string;
+  name: string;
+  description?: string;
+  isActive: boolean;
+  permissionIds: string[];
+}
