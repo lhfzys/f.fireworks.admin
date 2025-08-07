@@ -222,3 +222,25 @@ export interface UpdatePlanRequest {
   isActive: boolean;
   permissionIds: string[];
 }
+// --- 审计日志 ---
+export interface AuditLog {
+  id: string;
+  timestamp: Date;
+  userId: string | null;
+  userName: string | null;
+  tenantId: string;
+  tenantName: string | null;
+  requestName: string;
+  httpMethod: string;
+  url: string;
+  statusCode: number;
+  executionDurationMs: number;
+  ipAddress: string;
+}
+export interface AuditLogFilter extends FilterBase {
+  userName?: string;
+  requestName?: string;
+  dateFrom?: Date;
+  dateTo?: Date;
+  tenantId?: string;
+}
