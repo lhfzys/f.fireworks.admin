@@ -43,16 +43,16 @@ apiClient.interceptors.response.use(
         console.log(refreshResponse);
         const newAccessToken = refreshResponse.data.data?.accessToken;
         if (!newAccessToken) {
-          // useAuthStore.getState().logout();
-          // window.location.href = '/login';
+          useAuthStore.getState().logout();
+          window.location.href = '/login';
           return Promise.reject(error);
         }
         useAuthStore.getState().refreshTokens(newAccessToken);
         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
         return apiClient(originalRequest);
       } catch (refreshError) {
-        // useAuthStore.getState().logout();
-        // window.location.href = '/login';
+        useAuthStore.getState().logout();
+        window.location.href = '/login';
         return Promise.reject(refreshError);
       }
     }
